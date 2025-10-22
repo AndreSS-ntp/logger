@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"io"
+	"net/http"
 	"os"
 	"sync"
 	"time"
@@ -124,4 +125,11 @@ func FromContext(ctx context.Context) Logger {
 	}
 
 	return defaultLogger
+}
+
+func HandlerWithLogger(logger Logger, handler func(http.ResponseWriter, *http.Request)) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		ctx := WithLogger(r.Context(), logger)
+		handler(w, r.WithContext(ctx))
+	}
 }
