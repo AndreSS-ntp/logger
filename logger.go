@@ -13,9 +13,9 @@ import (
 type Level int
 
 const (
-	LevelInfo  Level = 1
-	LevelWarn  Level = 2
-	LevelError Level = 3
+	LevelInfo Level = iota + 1
+	LevelWarn
+	LevelError
 )
 
 func (l Level) String() string {
